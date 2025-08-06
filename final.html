@@ -120,18 +120,7 @@
     if (!isValidReferer(referer)) {
       window.location.href = "/denied";
     } else {
-      function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-      }
-
-      const linkParam = getQueryParam('link');
-      let redirectURL = "https://pastebin.com/qH6ZCt8e";
-
-      if (linkParam === 'link1') {
-        redirectURL = "https://pastebin.com/KfJKWGqD";
-      }
-
+      const redirectURL = "https://pastebin.com/u/novahitta";
       setTimeout(() => {
         window.location.href = redirectURL;
       }, 3000);
