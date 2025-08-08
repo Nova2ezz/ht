@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hitta</title>
+<link rel="icon" type="image/png" href="vp3.png" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+  /* your full CSS as provided */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #d6c6f5;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    background: #2a1145;
+  }
+  main {
+    flex: 1 0 auto;
+    max-width: 900px;
+    margin: 100px auto 40px;
+    padding: 0 1rem;
+    opacity: 0;
+    animation: fadeInContent 1.5s ease forwards 1s;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(255, 140, 198, 0.25) 0,
+        rgba(255, 140, 198, 0.25) 2px,
+        transparent 2px,
+        transparent 6px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        rgba(180, 153, 247, 0.15) 0,
+        rgba(180, 153, 247, 0.15) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+    animation: linesMove 8s linear infinite;
+    z-index: -1;
+  }
+
+  @keyframes linesMove {
+    0% {
+      background-position:
+        0 0,
+        0 0;
+    }
+    100% {
+      background-position:
+        0 30px,
+        0 15px;
+    }
+  }
+
+
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #ff8cc6dd, #5c2d91cc 70%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  a {
+    color: #b399f7;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+    color: #a077f9;
+  }
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(58, 31, 107, 0.85);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    box-shadow: 0 2px 8px rgba(90,50,130,0.7);
+    z-index: 1000;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    backdrop-filter: blur(6px);
+    animation: fadeSlideDown 1.2s ease forwards;
+  }
+  @keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  header .logo {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #cdb9ff;
+    letter-spacing: 2px;
+    animation: pulseText 3s ease-in-out infinite;
+  }
+  @keyframes pulseText {
+    0%, 100% {opacity: 1; text-shadow: 0 0 6px #bb99ff;}
+    50% {opacity: 0.7; text-shadow: 0 0 20px #d3b6ff;}
+  }
+  header .social-icons {
+    margin-left: auto;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  header .social-icons a {
+    color: #d6c6f5;
+    font-size: 1.6rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+    animation: pulseIcon 4s ease-in-out infinite;
+  }
+  header .social-icons a:hover {
+    color: #ffffff;
+    transform: scale(1.3) rotate(15deg);
+  }
+  @keyframes pulseIcon {
+    0%, 100% { transform: scale(1) }
+    50% { transform: scale(1.1) }
+  }
+  @keyframes fadeInContent {
+    to {opacity: 1;}
+  }
+  .intro {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .intro h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    color: #c9b6ff;
+    text-shadow: 0 0 10px #9575cd;
+  }
+  .intro h2 {
+    font-weight: 300;
+    font-size: 1.6rem;
+    height: 32px;
+    color: #b9aaff;
+  }
+  @keyframes blinkCaret {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: #b399f7; }
+  }
+  .typing {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid #b399f7;
+    animation: blinkCaret 0.75s step-end infinite;
+    width: auto;
+    display: inline-block;
+  }
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 1.8rem;
+  }
+  .project-card {
+    background: rgba(57, 42, 114, 0.85);
+    padding: 1.7rem 1.8rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px -15px #9575cd88;
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s ease;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    color: #e4d9ff;
+    user-select: none;
+    perspective: 600px;
+  }
+  .project-card:hover,
+  .project-card:focus {
+    outline: none;
+    transform: translateY(-10px) rotateX(5deg) rotateY(3deg);
+    box-shadow: 0 20px 40px -5px #b399f7cc;
+  }
+  .project-card h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #d3c2ff;
+    font-size: 1.5rem;
+    text-shadow: 0 0 7px #b99fff;
+  }
+  .project-card p {
+    font-size: 1rem;
+    color: #c1b3f7cc;
+  }
+  .project-disabled {
+    background: #5a4099;
+    cursor: default;
+    box-shadow: none;
+    transition: none;
+    transform: none !important;
+  }
+  .project-disabled:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  #notification {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #7a5cff;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(122, 92, 255, 0.7);
+    font-weight: 600;
+    font-size: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 2000;
+  }
+  #notification.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  footer {
+    flex-shrink: 0;
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.9rem;
+    color: #a997f6cc;
+    border-top: 1px solid #543e95;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+  @media (max-width: 480px) {
+    .intro h1 {
+      font-size: 2rem;
+    }
+    .intro h2 {
+      font-size: 1.2rem;
+      height: 28px;
+    }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo">Hitta - The Strongest Battlegrounds scripts</div>
+    <div class="social-icons" aria-label="Social media links">
+      <a href="https://discord.gg/hittasfamily" target="_blank" aria-label="Discord">
+        <i class="fab fa-discord"></i>
+      </a>
+      <a href="https://www.youtube.com/@Novahitta" target="_blank" aria-label="YouTube">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h1>Hello, I'm Novahitta</h1>
+      <h2><span id="typing-text" class="typing" aria-live="polite" aria-atomic="true"></span></h2>
+    </section>
+  </main>
+
+  <footer>
+    © Hitta - All rights reserved
+  </footer>
+
+  <div id="notification" role="alert" aria-live="assertive"></div>
+
+  <script>
+    const phrases = [
+      "Welcome, please be patient, you will be redirected shortly!",
+
+    ];
+
+    let currentPhraseIndex = 0;
+    let charIndex = 0;
+    const typingSpeed = 80;
+    const erasingSpeed = 35;
+    const delayBetweenPhrases = 1800;
+    const typingTextEl = document.getElementById("typing-text");
+
+    function typePhrase() {
+      if (charIndex < phrases[currentPhraseIndex].length) {
+        typingTextEl.textContent += phrases[currentPhraseIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(typePhrase, typingSpeed);
+      } else {
+        setTimeout(erasePhrase, delayBetweenPhrases);
+      }
+    }
+    function erasePhrase() {
+      if (charIndex > 0) {
+        typingTextEl.textContent = phrases[currentPhraseIndex].substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(erasePhrase, erasingSpeed);
+      } else {
+        currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+        setTimeout(typePhrase, typingSpeed);
+      }
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(typePhrase, 1000);
+    });
+
+    const notification = document.getElementById("notification");
+    function showNotification(message) {
+      notification.textContent = message;
+      notification.classList.add("show");
+      setTimeout(() => {
+        notification.classList.remove("show");
+      }, 3500);
+    }
+
+    setTimeout(() => {
+      window.location.href = "https://direct-link.net/1227408/gojo-script-v2-pastebin";
+    }, 6500);
+  </script>
+</body>
+</html>
